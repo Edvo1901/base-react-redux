@@ -32,12 +32,13 @@ body {
 		.btn-signup {
 			border-radius: 5px;
 			padding: 0 15px;
-			background-color: rgb(58, 58, 58);
+			background-color: black;
+			border: 1px solid;
 			color: white;
 			height: 40px;
 
 			&:hover {
-				background-color: black;
+				background-color: gray;
 			}
 		}
 
@@ -48,6 +49,42 @@ body {
 			.nav-link {
 				&.active {
 					color: red
+				}
+			}
+		}
+	}
+
+	.homepage-container {
+		.homepage-content {
+			position: relative;
+			padding: 0 100px;
+			margin-top: 300px;
+			width: 50%;
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
+
+			.title-1 {
+				font-size: 50px;
+				font-weight: 600;
+			}
+
+			.title-2 {
+				font-size: 30px;
+			}
+
+			.title-3 {
+				button {
+					border-radius: 5px;
+					height: 50px;
+					padding: 10px;
+					background-color: black;
+					color: white;
+					border: 1px solid;
+
+					&:hover {
+						background-color: gray;
+					}
 				}
 			}
 		}
