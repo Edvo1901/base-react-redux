@@ -9,6 +9,19 @@ const ModalCreateUser = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [role, setRole] = useState("USER");
+    const [image, setImage] = useState("");
+    const [previewImage, setPreviewImage] = useState("");
+
+    const handleUploadImage = (event) => {
+        if (event.target && event.target.files && event.target.files[0]) {
+            setPreviewImage(URL.createObjectURL(event.target.files[0]))
+            setImage(event.target.files[0])
+        }
+    }
 
     return (
         <>
@@ -24,33 +37,57 @@ const ModalCreateUser = () => {
                     <form className="row g-3">
                         <div className="col-md-6">
                             <label className="form-label">Email</label>
-                            <input type="email" className="form-control" />
+                            <input
+                                type="email"
+                                className="form-control"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                            />
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Password</label>
-                            <input type="password" className="form-control"/>
+                            <input
+                                type="password"
+                                className="form-control"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            />
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">User name</label>
-                            <input type="text" className="form-control"/>
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={username}
+                                onChange={(event) => setUsername(event.target.value)}
+                            />
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Role</label>
-                            <select className="form-select">
-                                <option selected value="USER">USER</option>
+                            <select className="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
+                                <option value="USER">USER</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
                         </div>
                         <div className="col-md-12">
                             <label className="form-label label-upload" htmlFor="labelUpload">
-                                <FcPlus/>
+                                <FcPlus />
                                 Upload image file
                             </label>
-                            <input type="file" hidden id="labelUpload"/>
+                            <input
+                                type="file"
+                                hidden
+                                id="labelUpload"
+                                value={image}
+                                onChange={(event) => handleUploadImage(event)}
+                            />
                         </div>
                         <div className="col-md-12 img-preview">
-                            {/* <span>Image Preview</span> */}
-                            <img src="https://media.discordapp.net/attachments/1215130743001587802/1223359050033397812/7d89df00-a9be-11eb-8e05-66965511d7fb.png?ex=6622cb66&is=66105666&hm=736977ab2545d59dacc985f5792a86e8277065cee25797c7834e9da28a525f48&=&format=webp&quality=lossless&width=2240&height=1120" alt="test"/>
+                            {previewImage ?
+                                <img src={previewImage} alt="test" />
+                                :
+                                <span>Image Preview</span>
+                            }
                         </div>
                     </form>
                 </Modal.Body>
