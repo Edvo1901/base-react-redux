@@ -1,6 +1,13 @@
 .manage-user-container {
-    .user-content {
-
+    padding: 10px;
+    .title {
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .user-content-container {
+        .btn-add-new {
+            margin: 15px 0px;
+        }
     }
 }
 
