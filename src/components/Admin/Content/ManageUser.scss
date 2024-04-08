@@ -8,6 +8,9 @@
         .btn-add-new {
             margin: 15px 0px;
         }
+        .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+            background-color: #adadad;
+        }
     }
 }
 
