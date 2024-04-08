@@ -4,9 +4,12 @@ import { FcPlus } from 'react-icons/fc';
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../services/APIService";
 import TableUser from "./TableUser";
+import ModalUpdateUser from "./ModalUpdateUser";
 
 const ManageUser = (props) => {
-    const [showModalCreateUser, setShowModalCreateUser] = useState(false);
+    const [showModalCreateUser, setShowModalCreateUser] = useState(false)
+    const [showModalUpdateUser, setShowModalUpdateUser] = useState(false)
+    const [dataUpdate, setDataUpdate] = useState({})
     const [listUsers, setListUsers] = useState([])
 
     useEffect(() => {
@@ -20,6 +23,10 @@ const ManageUser = (props) => {
         }
     }
 
+    const handleClickBtnUpdateUser = (user) => {
+        setDataUpdate(user)
+        setShowModalUpdateUser(true)
+    }
 
     return (
         <div className="manage-user-container">
@@ -37,12 +44,20 @@ const ManageUser = (props) => {
                     </button>
                 </div>
                 <div>
-                    <TableUser listUsers={listUsers}/>
+                    <TableUser
+                    listUsers={listUsers}
+                    handleClickBtnUpdateUser={handleClickBtnUpdateUser}
+                    />
                 </div>
                 <ModalCreateUser
-                show={showModalCreateUser}
-                setShow={setShowModalCreateUser}
-                fetchListUsers={fetchListUsers}
+                    show={showModalCreateUser}
+                    setShow={setShowModalCreateUser}
+                    fetchListUsers={fetchListUsers}
+                />
+                <ModalUpdateUser
+                    show={showModalUpdateUser}
+                    setShow={setShowModalUpdateUser}
+                    dataUpdate={dataUpdate}
                 />
             </div>
         </div>
