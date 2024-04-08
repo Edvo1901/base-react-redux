@@ -3,10 +3,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../services/APIService';
+import { putUpdateUser } from '../../services/APIService';
 import _ from 'lodash';
 
-const ModalUpdateUser = ({ show, setShow, dataUpdate }) => {
+const ModalUpdateUser = ({ show, setShow, fetchListUsers, dataUpdate, resetUpdateData }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -41,22 +41,11 @@ const ModalUpdateUser = ({ show, setShow, dataUpdate }) => {
         setRole("USER")
         setImage("")
         setPreviewImage("")
+        resetUpdateData()
     }
 
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
-
     const handleSubmitUser = async () => {
-        const isValidEmail = validateEmail(email)
-        if (!isValidEmail) return toast.error("Invalid email")
-        if (!password || password.length < 3) return toast.error("Invalid password")
-
-        let data = await postCreateNewUser(email, password, username, role, image)
+        let data = await putUpdateUser(dataUpdate.id, username, role, image)
 
         if (data && data.EC !== 0) {
             toast.error(data.EM)
@@ -65,7 +54,7 @@ const ModalUpdateUser = ({ show, setShow, dataUpdate }) => {
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
-            //await fetchListUsers()
+            await fetchListUsers()
         }
     }
 
