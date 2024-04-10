@@ -11,7 +11,7 @@ import TableUserPaginate from "./TableUserPaginate";
 import { set } from "lodash";
 
 const ManageUser = (props) => {
-    const LIMIT_USER = 5;
+    const LIMIT_USER = 1;
     const [pageCount, setPageCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const [showModalCreateUser, setShowModalCreateUser] = useState(false)

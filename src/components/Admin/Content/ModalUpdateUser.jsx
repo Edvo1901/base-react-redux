@@ -55,8 +55,7 @@ const ModalUpdateUser = ({ show, setShow, fetchListUsers, fetchListUsersWithPagi
             toast.success(data.EM)
             handleClose()
             //await fetchListUsers()
-            setCurrentPage(1)
-            await fetchListUsersWithPaginate(1)
+            await fetchListUsersWithPaginate(currentPage)
         }
     }
 
