@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import _ from 'lodash';
 
-const ModalViewUser = ({ show, setShow, fetchListUsers, dataUpdate, resetUpdateData }) => {
+const ModalViewUser = ({ show, setShow, fetchListUsers, dataView, resetViewData }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -12,16 +12,16 @@ const ModalViewUser = ({ show, setShow, fetchListUsers, dataUpdate, resetUpdateD
     const [previewImage, setPreviewImage] = useState("");
 
     useEffect(() => {
-        if (_.isEmpty(dataUpdate)) return
+        if (_.isEmpty(dataView)) return
 
-        setEmail(dataUpdate.email)
-        setUsername(dataUpdate.username)
-        setRole(dataUpdate.role)
+        setEmail(dataView.email)
+        setUsername(dataView.username)
+        setRole(dataView.role)
         setImage("")
-        if (dataUpdate.image) {
-            setPreviewImage(`data:image/png;base64,${dataUpdate.image}`)
+        if (dataView.image) {
+            setPreviewImage(`data:image/png;base64,${dataView.image}`)
         }
-    }, [dataUpdate])
+    }, [dataView])
 
     const handleClose = () => {
         setShow(false)
@@ -31,7 +31,7 @@ const ModalViewUser = ({ show, setShow, fetchListUsers, dataUpdate, resetUpdateD
         setRole("USER")
         setImage("")
         setPreviewImage("")
-        resetUpdateData()
+        resetViewData()
     }
 
     return (
