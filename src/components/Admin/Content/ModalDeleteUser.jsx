@@ -2,29 +2,29 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const ModalDeleteUser = () => {
-    const [show, setShow] = useState(false);
-
+const ModalDeleteUser = ({ show, setShow, fetchListUsers, dataDelete, resetDataDelete }) => {
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+    const handleSubmitDeleteUser = async () => {
+        alert("Delete user")
+    }
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button>
-
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} size="xl" backdrop="static">
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Confirm delete user?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                <Modal.Body>Are you sure that you want to delete user <b>
+                        {dataDelete && dataDelete.email ? dataDelete.email : ""}?
+                    </b> This action cannot be revoked
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Cancel
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
+                    <Button variant="primary" onClick={() => handleSubmitDeleteUser()}>
+                        Delete
                     </Button>
                 </Modal.Footer>
             </Modal>
