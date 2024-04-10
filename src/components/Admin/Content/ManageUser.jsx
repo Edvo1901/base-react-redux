@@ -2,7 +2,7 @@ import ModalCreateUser from "./ModalCreateUser";
 import "./ManageUser.scss";
 import { FcPlus } from 'react-icons/fc';
 import { useEffect, useState } from "react";
-import { getAllUsers, getUSerWithPaginate } from "../../services/APIService";
+import { getAllUsers, getUserWithPaginate } from "../../services/APIService";
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
@@ -11,7 +11,7 @@ import TableUserPaginate from "./TableUserPaginate";
 import { set } from "lodash";
 
 const ManageUser = (props) => {
-    const LIMIT_USER = 1;
+    const LIMIT_USER = 5;
     const [pageCount, setPageCount] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
     const [showModalCreateUser, setShowModalCreateUser] = useState(false)
@@ -36,7 +36,7 @@ const ManageUser = (props) => {
     }
 
     const fetchListUsersWithPaginate = async (page) => {
-        let res = await getUSerWithPaginate(page, LIMIT_USER)
+        let res = await getUserWithPaginate(page, LIMIT_USER)
         if (res.EC === 0) {
             setListUsers(res.DT.users)
             setPageCount(res.DT.totalPages)
