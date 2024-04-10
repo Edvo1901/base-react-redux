@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { getAllUsers } from "../../services/APIService";
 import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
+import ModalViewUser from "./ModalViewUser";
 
 const ManageUser = (props) => {
     const [showModalCreateUser, setShowModalCreateUser] = useState(false)
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false)
+    const [showModalViewUser, setShowModalViewUser] = useState(false)
     const [dataUpdate, setDataUpdate] = useState({})
     const [listUsers, setListUsers] = useState([])
 
@@ -26,6 +28,11 @@ const ManageUser = (props) => {
     const handleClickBtnUpdateUser = (user) => {
         setDataUpdate(user)
         setShowModalUpdateUser(true)
+    }
+
+    const handleClickBtnViewUser = (user) => {
+        setDataUpdate(user)
+        setShowModalViewUser(true)
     }
 
     const resetUpdateData = () => {
@@ -49,8 +56,9 @@ const ManageUser = (props) => {
                 </div>
                 <div>
                     <TableUser
-                    listUsers={listUsers}
-                    handleClickBtnUpdateUser={handleClickBtnUpdateUser}
+                        listUsers={listUsers}
+                        handleClickBtnUpdateUser={handleClickBtnUpdateUser}
+                        handleClickBtnViewUser={handleClickBtnViewUser}
                     />
                 </div>
                 <ModalCreateUser
@@ -61,6 +69,13 @@ const ManageUser = (props) => {
                 <ModalUpdateUser
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
+                    fetchListUsers={fetchListUsers}
+                    dataUpdate={dataUpdate}
+                    resetUpdateData={resetUpdateData}
+                />
+                <ModalViewUser
+                    show={showModalViewUser}
+                    setShow={setShowModalViewUser}
                     fetchListUsers={fetchListUsers}
                     dataUpdate={dataUpdate}
                     resetUpdateData={resetUpdateData}
