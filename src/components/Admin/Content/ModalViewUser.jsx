@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import _ from 'lodash';
 
-const ModalViewUser = ({ show, setShow, fetchListUsers, dataView, resetViewData }) => {
+const ModalViewUser = ({ show, setShow, dataView, resetViewData }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");

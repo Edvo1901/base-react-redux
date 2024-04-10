@@ -13,6 +13,7 @@ import { set } from "lodash";
 const ManageUser = (props) => {
     const LIMIT_USER = 5;
     const [pageCount, setPageCount] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
     const [showModalCreateUser, setShowModalCreateUser] = useState(false)
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false)
     const [showModalViewUser, setShowModalViewUser] = useState(false)
@@ -98,24 +99,31 @@ const ManageUser = (props) => {
                         handleClickBtnDeleteUser={handleClickBtnDeleteUser}
                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                         pageCount={pageCount}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
                     />
                 </div>
                 <ModalCreateUser
                     show={showModalCreateUser}
                     setShow={setShowModalCreateUser}
                     fetchListUsers={fetchListUsers}
+                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <ModalUpdateUser
                     show={showModalUpdateUser}
                     setShow={setShowModalUpdateUser}
                     fetchListUsers={fetchListUsers}
+                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                     dataUpdate={dataUpdate}
                     resetUpdateData={resetUpdateData}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <ModalViewUser
                     show={showModalViewUser}
                     setShow={setShowModalViewUser}
-                    fetchListUsers={fetchListUsers}
                     dataView={dataView}
                     resetViewData={resetViewData}
                 />
@@ -123,8 +131,11 @@ const ManageUser = (props) => {
                     show={showModalDeleteUser}
                     setShow={setShowModalDeleteUser}
                     fetchListUsers={fetchListUsers}
+                    fetchListUsersWithPaginate={fetchListUsersWithPaginate}
                     dataDelete={dataDelete}
                     resetDeleteData={resetDeleteData}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             </div>
         </div>
