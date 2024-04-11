@@ -5,5 +5,18 @@
         .login-navigation {
             cursor: pointer;
         }
+        .back {
+            cursor: pointer;
+            color: darkblue;
+        }
+        .password-container {
+            position: relative;
+            .icons-eye {
+                cursor: pointer;
+                position: absolute;
+                right: 10px;
+                bottom: 45px;
+            }
+        }
     }
 }

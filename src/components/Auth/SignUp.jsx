@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { postUserRegister } from "../services/APIService";
 import { useState } from "react";
+import { VscEyeClosed, VscEye } from 'react-icons/vsc';
 
 const SignUp = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [isShowPassword, setIsShowPassword] = useState(false)
 
     const handleGoToLoginPage = () => {
         navigate("/login")
@@ -44,6 +46,10 @@ const SignUp = () => {
         setUsername("")
     }
 
+    const handleGoToHomePage = () => {
+        navigate("/")
+    }
+
     return (
         <section className="vh-100 bg-image">
             <div className="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -54,21 +60,26 @@ const SignUp = () => {
                                 <div className="card-body p-5">
                                     <h2 className="text-uppercase text-center mb-5">Create an account</h2>
                                     <form>
-                                        <div data-mdb-input-init className="form-outline mb-4">
+                                        <div className="form-outline mb-4">
                                             <input type="email" className="form-control form-control-lg" value={email} onChange={(event) => setEmail(event.target.value)} required />
                                             <label className="form-label">Email</label>
                                         </div>
 
-                                        <div data-mdb-input-init className="form-outline mb-4">
+                                        <div className="form-outline mb-4">
                                             <input type="text" className="form-control form-control-lg" value={username} onChange={(event) => setUsername(event.target.value)} required />
                                             <label className="form-label">Username</label>
                                         </div>
 
-                                        <div data-mdb-input-init className="form-outline mb-4">
-                                            <input type="password" className="form-control form-control-lg" value={password} onChange={(event) => setPassword(event.target.value)} required />
+                                        <div className="password-container form-outline mb-4">
+                                            <input type={isShowPassword ? "text" : "password"} className="form-control form-control-lg" value={password} onChange={(event) => setPassword(event.target.value)} required />
+                                            {isShowPassword ?
+                                                <span className="icons-eye" onClick={() => setIsShowPassword(false)}><VscEye /></span>
+                                                :
+                                                <span className="icons-eye" onClick={() => setIsShowPassword(true)}><VscEyeClosed /></span>
+                                            }
                                             <label className="form-label">Password</label>
-                                        </div>
 
+                                        </div>
                                         <div className="form-check d-flex justify-content-center mb-5">
                                             <input className="form-check-input me-2" type="checkbox" value="" />
                                             <label className="form-check-label">
@@ -89,6 +100,9 @@ const SignUp = () => {
                                             onClick={() => handleGoToLoginPage()}
                                             className="fw-bold text-body login-navigation"
                                         ><u>Login here</u></span></p>
+                                        <div className="text-center text-muted mt-5 mb-0">
+                                            <span className="back" onClick={() => handleGoToHomePage()}> &#60;&#60; Go to home page</span>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
