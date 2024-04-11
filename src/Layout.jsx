@@ -9,6 +9,7 @@ import HomePage from './components/Home/HomePage.jsx';
 import ManageUser from './components/Admin/Content/ManageUser.jsx';
 import Dashboard from './components/Admin/Content/Dashboard.jsx';
 import Login from './components/Auth/Login.jsx';
+import SignUp from './components/Auth/SignUp.jsx';
 
 const Layout = () => {
     return (
@@ -23,6 +24,7 @@ const Layout = () => {
                     <Route path="manage-user" element={<ManageUser />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
             </Routes>
 
             <ToastContainer

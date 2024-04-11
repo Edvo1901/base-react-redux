@@ -25,11 +25,15 @@ const Login = () => {
         navigate("/")
     }
 
+    const handleGoToSignUpPage = () => {
+        navigate("/signup")
+    }
+
     return (
         <div className="login-container">
             <div className="header">
                 <span>Don't have an account?</span>
-                <button>Sign up</button>
+                <button onClick={() => handleGoToSignUpPage()}>Sign up</button>
             </div>
             <div className="title text-center col-4 mx-auto">
                 React-redux
