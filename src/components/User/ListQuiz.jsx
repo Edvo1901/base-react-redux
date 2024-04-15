@@ -9,6 +9,7 @@ const ListQuiz = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
 
     const getQuizData = async () => {
+        if (!isAuthenticated) return
         const res = await getQuizByUser()
         if (!res || (res && +res.EC !== 0)) return
         if (res && +res.EC === 0) {
@@ -17,7 +18,6 @@ const ListQuiz = () => {
     }
 
     useEffect(() => {
-        if (!isAuthenticated) return
         getQuizData()
     }, [])
 
