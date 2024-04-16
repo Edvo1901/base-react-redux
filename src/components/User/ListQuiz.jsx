@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { getQuizByUser } from "../services/APIService";
 import "./ListQuiz.scss";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ListQuiz = () => {
+    const navigate = useNavigate()
     const [arrQuiz, setArrQuiz] = useState([]);
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
 
@@ -31,7 +33,7 @@ const ListQuiz = () => {
                             <div className="card-body">
                                 <h5 className="card-title">Quiz {index + 1}</h5>
                                 <p className="card-text">{item.description}</p>
-                                <button href="#" className="btn btn-primary">Start now</button>
+                                <button onClick={() => navigate(`/quiz/${item.id}`)} className="btn btn-primary">Start now</button>
                             </div>
                         </div>
                     )

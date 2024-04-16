@@ -11,6 +11,7 @@ import Dashboard from './components/Admin/Content/Dashboard.jsx';
 import Login from './components/Auth/Login.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import ListQuiz from './components/User/ListQuiz.jsx';
+import DetailQuiz from './components/User/DetailQuiz.jsx';
 
 const Layout = () => {
     return (
@@ -20,12 +21,14 @@ const Layout = () => {
                     <Route index element={<HomePage />} />
                     <Route path="/user" element={<ListQuiz />} />
                 </Route>
+                <Route path="/quiz/:id" element={<DetailQuiz />} />
                 <Route path="/admin" element={<Admin />}>
                     <Route index element={<Dashboard />} />
                     <Route path="manage-user" element={<ManageUser />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="*" element={<h1>404 Not Found</h1>} />
             </Routes>
 
             <ToastContainer
