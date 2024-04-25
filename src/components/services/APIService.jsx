@@ -50,4 +50,14 @@ const getDataQuiz = (quizId) => {
 
 }
 
-export { postCreateNewUser, getAllUsers, putUpdateUser, deleteUser, getUserWithPaginate, postUserLogin, postUserRegister, getQuizByUser, getDataQuiz }
+export {
+    postCreateNewUser,
+    getAllUsers,
+    putUpdateUser,
+    deleteUser,
+    getUserWithPaginate,
+    postUserLogin,
+    postUserRegister,
+    getQuizByUser,
+    getDataQuiz 
+}
