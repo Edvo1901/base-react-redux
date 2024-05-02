@@ -58,13 +58,37 @@ const DetailQuiz = () => {
                 return item
             })
             question.answers = b
-            console.log(b)
         }
         let index = dataQuizClone.findIndex(item => +item.questionId === +questionId)
         if (index > -1) {
             dataQuizClone[index] = question
             setDataQuiz(dataQuizClone)
         }
+    }
+
+    const handleFinish = () => {
+        let payload = {
+            quizId: +quizId,
+            answers: []
+        }
+        let answerArr = []
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(item => {
+                let questionId = item.questionId;
+                let userAnswerId = []
+                item.answers.forEach(a => {
+                    if (a.isSelected) {
+                        userAnswerId.push(a.id)
+                    }
+                })
+                answerArr.push({
+                    questionId: +questionId,
+                    userAnswerId: userAnswerId
+                })
+            })
+        }
+        payload.answers = answerArr
+        console.log(payload)
     }
 
     useEffect(() => {
@@ -93,7 +117,7 @@ const DetailQuiz = () => {
                 <div className="footer">
                     <button className="btn btn-secondary" onClick={() => handlePrev()}>Prev</button>
                     <button className="btn btn-primary" onClick={() => handleNext()}>Next</button>
-                    <button className="btn btn-warning" onClick={() => handleNext()}>Finish</button>
+                    <button className="btn btn-warning" onClick={() => handleFinish()}>Finish</button>
                 </div>
 
             </div>
