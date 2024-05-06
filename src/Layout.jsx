@@ -12,6 +12,7 @@ import Login from './components/Auth/Login.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import ListQuiz from './components/User/ListQuiz.jsx';
 import DetailQuiz from './components/User/DetailQuiz.jsx';
+import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz.jsx';
 
 const Layout = () => {
     return (
@@ -25,6 +26,7 @@ const Layout = () => {
                 <Route path="/admin" element={<Admin />}>
                     <Route index element={<Dashboard />} />
                     <Route path="manage-user" element={<ManageUser />} />
+                    <Route path="manage-quizzes" element={<ManageQuiz />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
