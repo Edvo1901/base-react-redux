@@ -94,7 +94,6 @@ const DetailQuiz = () => {
         payload.answers = answerArr
 
         let res = await postSubmitQuiz(payload)
-        console.log(res)
         if (res && res.EC === 0) {
             setDataModalResult({
                 countCorrect: res.DT.countCorrect,
