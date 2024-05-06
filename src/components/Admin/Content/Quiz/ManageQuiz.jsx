@@ -5,6 +5,7 @@ import { createNewQuiz } from "../../../services/APIService.jsx";
 import { toast } from 'react-toastify';
 import TableQuiz from "./TableQuiz.jsx";
 import { Accordion } from "react-bootstrap";
+import { getAllQuizForAdmin } from "../../../services/APIService";
 
 const options = [
     { value: "EASY", label: "EASY" },
@@ -17,10 +18,19 @@ const ManageQuiz = () => {
     const [description, setDescription] = useState('')
     const [type, setType] = useState('EASY')
     const [image, setImage] = useState('')
+    const [listQuiz, setListQuiz] = useState([])
 
     const handleChangeFile = (e) => {
         if (e.target && e.target.files && e.target.files[0]) {
             setImage(e.target.files[0])
+        }
+    }
+
+    const fetchQuizList = async () => {
+        let res = await getAllQuizForAdmin()
+
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT)
         }
     }
 
@@ -34,7 +44,7 @@ const ManageQuiz = () => {
             setName("")
             setDescription("")
             setType("EASY")
-
+            await fetchQuizList()
         } else {
             toast.error(res.EM)
         }
@@ -98,7 +108,11 @@ const ManageQuiz = () => {
             </Accordion>
 
             <div className="list-detail">
-                <TableQuiz />
+                <TableQuiz
+                    listQuiz={listQuiz}
+                    setListQuiz={setListQuiz}
+                    fetchQuizList={fetchQuizList}
+                />
             </div>
         </div>
     )

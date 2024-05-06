@@ -1,20 +1,8 @@
-import { useEffect, useState } from "react"
-import { getAllQuizForAdmin } from "../../../services/APIService"
+import { useEffect } from "react"
 
-
-const TableQuiz = () => {
-    const [listQuiz, setListQuiz] = useState([])
-
-    const fetchQuiz = async () => {
-        let res = await getAllQuizForAdmin()
-
-        if (res && res.EC === 0) {
-            setListQuiz(res.DT)
-        }
-    }
-
+const TableQuiz = ({listQuiz, setListQuiz, fetchQuizList}) => {
     useEffect(() => {
-        fetchQuiz()
+        fetchQuizList()
     }, [])
 
     return (
