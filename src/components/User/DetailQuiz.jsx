@@ -4,6 +4,8 @@ import { getDataQuiz } from "../services/APIService";
 import _ from "lodash";
 import "./DetailQuiz.scss";
 import Question from "./Question";
+import { postSubmitQuiz } from "../services/APIService";
+import ModalResult from "./ModalResult";
 
 const DetailQuiz = () => {
     const params = useParams()
@@ -11,6 +13,8 @@ const DetailQuiz = () => {
     const quizId = params.id
     const [dataQuiz, setDataQuiz] = useState([])
     const [index, setIndex] = useState(0)
+    const [isShowModalResult, setShowModalResult] = useState(false)
+    const [dataModalResult, setDataModalResult] = useState({})
 
     const fetchQuestions = async () => {
         const res = await getDataQuiz(quizId)
@@ -66,7 +70,7 @@ const DetailQuiz = () => {
         }
     }
 
-    const handleFinish = () => {
+    const handleFinish = async () => {
         let payload = {
             quizId: +quizId,
             answers: []
@@ -88,7 +92,19 @@ const DetailQuiz = () => {
             })
         }
         payload.answers = answerArr
-        console.log(payload)
+
+        let res = await postSubmitQuiz(payload)
+        console.log(res)
+        if (res && res.EC === 0) {
+            setDataModalResult({
+                countCorrect: res.DT.countCorrect,
+                countTotal: res.DT.countTotal,
+                quizData: res.DT.quizData
+            })
+            setShowModalResult(true)
+        } else {
+            alert("Sth is wrong")
+        }
     }
 
     useEffect(() => {
@@ -112,7 +128,7 @@ const DetailQuiz = () => {
                             dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []
                         }
                         handleCheckBox={handleCheckBox}
-                        />
+                    />
                 </div>
                 <div className="footer">
                     <button className="btn btn-secondary" onClick={() => handlePrev()}>Prev</button>
@@ -124,6 +140,11 @@ const DetailQuiz = () => {
             <div className="right-content">
                 Countdown
             </div>
+            <ModalResult
+                show={isShowModalResult}
+                setShow={setShowModalResult}
+                dataModalResult={dataModalResult}
+            />
         </div>
     )
 }
