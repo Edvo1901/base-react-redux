@@ -99,7 +99,9 @@ const ManageQuiz = () => {
                                     <button
                                         className="btn btn-warning"
                                         onClick={handleSubmitQuiz}
-                                    >Save</button>
+                                    >
+                                        Save
+                                    </button>
                                 </div>
                             </fieldset>
                         </div>

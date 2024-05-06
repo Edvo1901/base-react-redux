@@ -3,12 +3,10 @@ import "./ManageUser.scss";
 import { FcPlus } from 'react-icons/fc';
 import { useEffect, useState } from "react";
 import { getAllUsers, getUserWithPaginate } from "../../services/APIService";
-import TableUser from "./TableUser";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import TableUserPaginate from "./TableUserPaginate";
-import { set } from "lodash";
 
 const ManageUser = (props) => {
     const LIMIT_USER = 5;

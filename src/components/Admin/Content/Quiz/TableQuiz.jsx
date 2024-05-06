@@ -1,6 +1,19 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import ModalUpdateQuiz from "./ModalUpdateQuiz"
 
 const TableQuiz = ({listQuiz, setListQuiz, fetchQuizList}) => {
+    const [showUpdateModal, setShowUpdateModal] = useState(false)
+    const [dataQuiz, setDataQuiz] = useState({})
+
+    const handleClickUpdateQuiz = (quiz) => {
+        setDataQuiz(quiz)
+        setShowUpdateModal(true)
+    }
+
+    const resetUpdateQuizData = () => {
+        setDataQuiz({})
+    }
+
     useEffect(() => {
         fetchQuizList()
     }, [])
@@ -28,7 +41,7 @@ const TableQuiz = ({listQuiz, setListQuiz, fetchQuizList}) => {
                                     <td>{item.description}</td>
                                     <td>{item.difficulty}</td>
                                     <td>
-                                        <button className="btn btn-warning mx-2">Edit</button>
+                                        <button className="btn btn-warning mx-2" onClick={() => handleClickUpdateQuiz(item)}>Edit</button>
                                         <button className="btn btn-danger">Delete</button>
                                     </td>
                                 </tr>
@@ -37,6 +50,15 @@ const TableQuiz = ({listQuiz, setListQuiz, fetchQuizList}) => {
                     }
                 </tbody>
             </table>
+            <div>
+                <ModalUpdateQuiz
+                    showUpdateModal={showUpdateModal}
+                    setShowUpdateModal={setShowUpdateModal}
+                    fetchQuizList={fetchQuizList}
+                    dataQuiz={dataQuiz}
+                    resetUpdateQuizData={resetUpdateQuizData}
+                />
+            </div>
         </>
     )
 }
