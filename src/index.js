@@ -7,7 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'nprogress/nprogress.css';
 import { BrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
