@@ -6,6 +6,7 @@ import { AiOutlineMinusCircle, AiFillPlusSquare } from "react-icons/ai";
 import { RiImageAddFill } from "react-icons/ri";
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
+import { toast } from 'react-toastify';
 
 const options = [
     { value: 'chocolate', label: 'Chocolate' },
@@ -59,13 +60,56 @@ const Questions = () => {
             }
 
             let index = questionsClone.findIndex(item => item.id === questionId)
+            if (index < 0) return toast.error("Something went wrong")
             questionsClone[index].answers.push(newAnswer)
             setQuestions(questionsClone)
         } else if (type === "REMOVE") {
             let index = questionsClone.findIndex(item => item.id === questionId)
+            if (index < 0) return toast.error("Something went wrong")
             questionsClone[index].answers = questionsClone[index].answers.filter(item => item.id !== answerId)
             setQuestions(questionsClone)
         }
+    }
+
+    const handleOnChange = (type, questionId, value) => {
+        if (type === "QUESTION") {
+            let questionsClone = _.cloneDeep(questions)
+            let index = questionsClone.findIndex(item => item.id === questionId)
+            if (index < 0) return toast.error("Something went wrong")
+            questionsClone[index].description = value
+            setQuestions(questionsClone)
+        }
+    }
+
+    const handleOnChangeFileQuestion = (questionId, e) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === questionId)
+        if (index < 0) return toast.error("Something went wrong")
+        if (!e.target || !e.target.files) return toast.error("Cannot find the image file")
+        questionsClone[index].imageFile = e.target.files[0]
+        questionsClone[index].imageName = e.target.files[0].name
+        setQuestions(questionsClone)
+    }
+
+    const handleAnswerQuestion = (type, questionId, answerId, value) => {
+        let questionsClone = _.cloneDeep(questions)
+        let index = questionsClone.findIndex(item => item.id === questionId)
+        if (index < 0) return toast.error("Something went wrong")
+        questionsClone[index].answers = questionsClone[index].answers.map(answer => {
+            if (answer.id === answerId) {
+                if (type === "CHECKBOX") {
+                    answer.isCorrect = value
+                } else if (type === "INPUT") {
+                    answer.description = value
+                }
+            }
+            return answer;
+        })
+        setQuestions(questionsClone)
+    }
+
+    const handleSubmitQuestionForQuiz = () => {
+        
     }
 
     return (
@@ -97,15 +141,21 @@ const Questions = () => {
                                             className="form-control"
                                             placeholder="name@example.com"
                                             value={question.description}
+                                            onChange={(e) => handleOnChange("QUESTION", question.id, e.target.value)}
                                         />
                                         <label>Question {index + 1} description</label>
                                     </div>
                                     <div className="group-upload">
-                                        <label>
+                                        <label htmlFor={`${question.id}`}>
                                             <RiImageAddFill className="label-up" />
                                         </label>
-                                        <input type="file" hidden />
-                                        <span>No file uploaded</span>
+                                        <input
+                                            id={`${question.id}`}
+                                            type="file"
+                                            hidden
+                                            onChange={(e) => handleOnChangeFileQuestion(question.id, e)}
+                                        />
+                                        <span>{question.imageName ? question.imageName : "No file uploaded"}</span>
                                     </div>
                                     <div className="btn-add">
                                         <span onClick={() => handleAddRemoveQuestion("ADD", "")}>
@@ -122,10 +172,12 @@ const Questions = () => {
                                 {
                                     question.answers && question.answers.length > 0 && question.answers.map((answer, index) => {
                                         return (
-                                            <div key={answer.id} className="answer-content">
+                                            <div key={answer.id} className="answer-content mb-4">
                                                 <input
                                                     className="form-check-input is-correct"
                                                     type="checkbox"
+                                                    checked={answer.isCorrect}
+                                                    onChange={(e) => handleAnswerQuestion("CHECKBOX", question.id, answer.id, e.target.checked)}
                                                 />
                                                 <div className="form-floating answer-name">
                                                     <input
@@ -133,6 +185,7 @@ const Questions = () => {
                                                         className="form-control"
                                                         placeholder="name@example.com"
                                                         value={answer.description}
+                                                        onChange={(e) => handleAnswerQuestion("INPUT", question.id, answer.id, e.target.value)}
                                                     />
                                                     <label>Answer {index + 1}</label>
                                                 </div>
@@ -150,6 +203,15 @@ const Questions = () => {
                                             </div>
                                         )
                                     })
+                                }
+                                {
+                                    questions && questions.length > 0 &&
+                                    <button
+                                        className="btn btn-warning"
+                                        onClick={() => handleSubmitQuestionForQuiz()}
+                                    >
+                                        Save questions
+                                    </button>
                                 }
                             </div>
                         )
