@@ -64,13 +64,16 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                         >
                             <MenuItem>
                                 Manage User
-                                <Link to="manage-user"/>
+                                <Link to="manage-user" />
                             </MenuItem>
                             <MenuItem>
-                            Manage Quiz
-                                <Link to="manage-quizzes"/>
+                                Manage Quiz
+                                <Link to="manage-quizzes" />
                             </MenuItem>
-                            <MenuItem>Manage Questions</MenuItem>
+                            <MenuItem>
+                                Manage Questions
+                                <Link to="manage-questions" />
+                            </MenuItem>
                         </SubMenu>
 
                     </Menu>
