@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { toast } from 'react-toastify';
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin, getQuizWithQA } from '../../../services/APIService';
+import { getAllQuizForAdmin, getQuizWithQA, postUpsertQA } from '../../../services/APIService';
 import { postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../services/APIService';
 
 const QuizQA = () => {
@@ -155,18 +155,31 @@ const QuizQA = () => {
         if (!isCheckedBox) return toast.error(`The question need at least one right answer! Question ${indexQuestion + 1}`)
 
         // Submit question
-        for (const question of questions) {
-            const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
-
-            // Submit answer
-            for (const answer of question.answers) {
-                await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id)
+        let questionsClone = _.cloneDeep(questions)
+        for (let i = 0; i < questionsClone.length; i++) {
+            if (questionsClone[i].imageFile) {
+                questionsClone[i].imageFile = await toBase64(questionsClone[i].imageFile)
             }
         }
+        let res = await postUpsertQA({
+            quizId: +selectedQuiz.value,
+            questions: questionsClone
+        })
 
-        toast.success("Create questions and answers succeed!")
-        setQuestions(initQuestion)
+        if (res && res.EC === 0) {
+            toast.success(res.EM)
+            setQuestions(initQuestion)
+            fetchQuizWithQA()
+        }
     }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
+
 
     const handlePreviewImage = (questionId) => {
         let questionsClone = _.cloneDeep(questions)
