@@ -1,14 +1,22 @@
-const RightContent = ({ dataQuiz }) => {
+import CountDown from "./CountDown"
+
+const RightContent = ({ dataQuiz, handleFinish }) => {
+    const onTimeUp = () => {
+        handleFinish()
+    }
+
     return (
         <>
             <div className="main-timer">
-                10:10
+                <CountDown
+                    onTimeUp={onTimeUp}
+                />
             </div>
             <div className="main-question">
                 {dataQuiz && dataQuiz.length > 0 &&
                     dataQuiz.map((item, index) => {
                         return (
-                            <div className="question">
+                            <div key={`question-abc-${index}`} className="question">
                                 {index + 1}
                             </div>
                         )
