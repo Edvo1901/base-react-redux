@@ -12,17 +12,19 @@ import { getAllQuizForAdmin } from '../../../services/APIService';
 import { postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../services/APIService';
 
 const Questions = () => {
-    const [questions, setQuestions] = useState([
+    const initQuestion = [
         {
             id: uuidv4(),
-            description: "Question 1",
+            description: "",
             imageFile: "",
             imageName: "",
+            isValidQuestion: true,
             answers: [
-                { id: uuidv4(), description: "Answer 1", isCorrect: false },
+                { id: uuidv4(), description: "", isCorrect: false, isValidAnswer: true },
             ]
         },
-    ])
+    ]
+    const [questions, setQuestions] = useState(initQuestion)
     const [isPreviewImage, setIsPreviewImage] = useState(false)
     const [dataImagePreview, setDataImagePreview] = useState({
         title: "",
@@ -111,16 +113,59 @@ const Questions = () => {
     }
 
     const handleSubmitQuestionForQuiz = async () => {
-        console.log(selectedQuiz)
+        if (_.isEmpty(selectedQuiz)) return toast.error("Please choose a quiz to assign")
+
+        // Validate question
+        let isValidQuestion = true
+        let indexQuestionCheck = 0
+        for (let i = 0; i < questions.length; i++) {
+            if (!questions[i].description) {
+                isValidQuestion = false
+                indexQuestionCheck = i
+                questions[i].isValidQuestion = false
+                break
+            }
+        }
+
+        if (!isValidQuestion) return toast.error(`Please fill the question! Question ${indexQuestionCheck + 1}`)
+
+        // Validate answer
+        let isValidAnswer = true
+        let isCheckedBox = false
+        let indexQuestion = 0
+        let indexAnswer = 0
+        for (let i = 0; i < questions.length; i++) {
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (!questions[i].answers[j].description) {
+                    isValidAnswer = false
+                    indexAnswer = j
+                    questions[i].answers[j].isValidAnswer = false
+                    break
+                }
+
+                if (questions[i].answers[j].isCorrect) {
+                    isCheckedBox = true
+                }
+            }
+            indexQuestion = i
+            if (!isValidAnswer) break
+        }
+
+        if (!isValidAnswer) return toast.error(`Please fill all the answer field! Answer ${indexAnswer + 1} at Question ${indexQuestion + 1}`)
+        if (!isCheckedBox) return toast.error(`The question need at least one right answer! Question ${indexQuestion + 1}`)
+
         // Submit question
-        await Promise.all(questions.map(async (question) => {
+        for (const question of questions) {
             const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
 
             // Submit answer
-            await Promise.all(question.answers.map(async (answer) => {
+            for (const answer of question.answers) {
                 await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id)
-            }))
-        }))
+            }
+        }
+
+        toast.success("Create questions and answers succeed!")
+        setQuestions(initQuestion)
     }
 
     const handlePreviewImage = (questionId) => {
@@ -179,7 +224,7 @@ const Questions = () => {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            placeholder="name@example.com"
+                                            placeholder="question"
                                             value={question.description}
                                             onChange={(e) => handleOnChange("QUESTION", question.id, e.target.value)}
                                         />
@@ -220,7 +265,7 @@ const Questions = () => {
                                 {
                                     question.answers && question.answers.length > 0 && question.answers.map((answer, index) => {
                                         return (
-                                            <div key={answer.id} className="answer-content mb-4">
+                                            <div key={answer.id} className="answer-content mb-2">
                                                 <input
                                                     className="form-check-input is-correct"
                                                     type="checkbox"
@@ -231,7 +276,7 @@ const Questions = () => {
                                                     <input
                                                         type="text"
                                                         className="form-control"
-                                                        placeholder="name@example.com"
+                                                        placeholder="Answer"
                                                         value={answer.description}
                                                         onChange={(e) => handleAnswerQuestion("INPUT", question.id, answer.id, e.target.value)}
                                                     />
