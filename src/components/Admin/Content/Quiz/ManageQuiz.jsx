@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 import TableQuiz from "./TableQuiz.jsx";
 import { Accordion } from "react-bootstrap";
 import { getAllQuizForAdmin } from "../../../services/APIService";
+import QuizQA from "./QuizQA.jsx";
+import AssignQuiz from "./AssignQuiz.jsx";
 
 const options = [
     { value: "EASY", label: "EASY" },
@@ -105,17 +107,28 @@ const ManageQuiz = () => {
                                 </div>
                             </fieldset>
                         </div>
+                        <div className="list-detail">
+                            <TableQuiz
+                                listQuiz={listQuiz}
+                                setListQuiz={setListQuiz}
+                                fetchQuizList={fetchQuizList}
+                            />
+                        </div>
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                    <Accordion.Header>Update Q/A quiz</Accordion.Header>
+                    <Accordion.Body>
+                        <QuizQA />
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                    <Accordion.Header>Assign to user</Accordion.Header>
+                    <Accordion.Body>
+                        <AssignQuiz />
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
-
-            <div className="list-detail">
-                <TableQuiz
-                    listQuiz={listQuiz}
-                    setListQuiz={setListQuiz}
-                    fetchQuizList={fetchQuizList}
-                />
-            </div>
         </div>
     )
 }
