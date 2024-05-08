@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import "./Questions.scss";
 import { BsFillPatchPlusFill, BsFillPatchMinusFill } from "react-icons/bs";
@@ -8,15 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { toast } from 'react-toastify';
 import Lightbox from "react-awesome-lightbox";
-
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
+import { getAllQuizForAdmin } from '../../../services/APIService';
+import { postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../services/APIService';
 
 const Questions = () => {
-    const [selectedQuiz, setSelectedQuiz] = useState({})
     const [questions, setQuestions] = useState([
         {
             id: uuidv4(),
@@ -33,6 +28,8 @@ const Questions = () => {
         title: "",
         url: ""
     })
+    const [listQuiz, setListQuiz] = useState([])
+    const [selectedQuiz, setSelectedQuiz] = useState({})
 
     const handleAddRemoveQuestion = (type, id) => {
         if (type === "ADD") {
@@ -113,8 +110,17 @@ const Questions = () => {
         setQuestions(questionsClone)
     }
 
-    const handleSubmitQuestionForQuiz = () => {
+    const handleSubmitQuestionForQuiz = async () => {
+        console.log(selectedQuiz)
+        // Submit question
+        await Promise.all(questions.map(async (question) => {
+            const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
 
+            // Submit answer
+            await Promise.all(question.answers.map(async (answer) => {
+                await postCreateNewAnswerForQuestion(answer.description, answer.isCorrect, q.DT.id)
+            }))
+        }))
     }
 
     const handlePreviewImage = (questionId) => {
@@ -128,6 +134,24 @@ const Questions = () => {
         setIsPreviewImage(true)
     }
 
+    const fetchQuizList = async () => {
+        let res = await getAllQuizForAdmin()
+
+        if (res && res.EC === 0) {
+            let newQuiz = res.DT.map(item => {
+                return {
+                    value: item.id,
+                    label: `${item.id} - ${item.description}`
+                }
+            })
+            setListQuiz(newQuiz)
+        }
+    }
+
+    useEffect(() => {
+        fetchQuizList()
+    }, [])
+
     return (
         <div className="question-container">
             <div className="title">
@@ -140,7 +164,7 @@ const Questions = () => {
                     <Select
                         defaultValue={selectedQuiz}
                         onChange={setSelectedQuiz}
-                        options={options}
+                        options={listQuiz}
                     />
                 </div>
                 <div className="mt-3 mb-2">
@@ -228,18 +252,18 @@ const Questions = () => {
                                         )
                                     })
                                 }
-                                {
-                                    questions && questions.length > 0 &&
-                                    <button
-                                        className="btn btn-warning"
-                                        onClick={() => handleSubmitQuestionForQuiz()}
-                                    >
-                                        Save questions
-                                    </button>
-                                }
                             </div>
                         )
                     })
+                }
+                {
+                    questions && questions.length > 0 &&
+                    <button
+                        className="btn btn-warning"
+                        onClick={() => handleSubmitQuestionForQuiz()}
+                    >
+                        Save questions
+                    </button>
                 }
                 {
                     isPreviewImage &&

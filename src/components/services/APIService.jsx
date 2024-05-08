@@ -34,7 +34,7 @@ const getUserWithPaginate = (page, limit) => {
 }
 
 const postUserLogin = (email, password) => {
-    return axios.post("/api/v1/login", { email, password, delay:5000 })
+    return axios.post("/api/v1/login", { email, password, delay: 5000 })
 }
 
 const postUserRegister = (email, username, password) => {
@@ -82,6 +82,20 @@ const deleteQuiz = (id) => {
     return axios.delete(`api/v1/quiz/${id}`)
 }
 
+const postCreateNewQuestionForQuiz = (quiz_id, description, questionImage) => {
+    console.log(quiz_id, description, questionImage)
+    const data = new FormData()
+    data.append("quiz_id", quiz_id)
+    data.append("description", description)
+    data.append("questionImage", questionImage)
+
+    return axios.post("api/v1/question", data)
+}
+
+const postCreateNewAnswerForQuestion = (description, correct_answer, question_id) => {
+    return axios.post("api/v1/answer", {description, correct_answer, question_id})
+}
+
 export {
     postCreateNewUser,
     getAllUsers,
@@ -96,5 +110,7 @@ export {
     createNewQuiz,
     getAllQuizForAdmin,
     putUpdateQuiz,
-    deleteQuiz
+    deleteQuiz,
+    postCreateNewQuestionForQuiz,
+    postCreateNewAnswerForQuestion
 }
