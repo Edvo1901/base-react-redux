@@ -6,6 +6,7 @@ import "./DetailQuiz.scss";
 import Question from "./Question";
 import { postSubmitQuiz } from "../services/APIService";
 import ModalResult from "./ModalResult";
+import RightContent from "./Content/RightContent";
 
 const DetailQuiz = () => {
     const params = useParams()
@@ -137,7 +138,9 @@ const DetailQuiz = () => {
 
             </div>
             <div className="right-content">
-                Countdown
+                <RightContent
+                    dataQuiz={dataQuiz}
+                />
             </div>
             <ModalResult
                 show={isShowModalResult}
