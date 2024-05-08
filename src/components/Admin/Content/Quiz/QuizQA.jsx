@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { toast } from 'react-toastify';
 import Lightbox from "react-awesome-lightbox";
-import { getAllQuizForAdmin } from '../../../services/APIService';
+import { getAllQuizForAdmin, getQuizWithQA } from '../../../services/APIService';
 import { postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../services/APIService';
 
 const QuizQA = () => {
@@ -172,11 +172,20 @@ const QuizQA = () => {
         let questionsClone = _.cloneDeep(questions)
         let index = questionsClone.findIndex(item => item.id === questionId)
         if (index < 0) return toast.error("Something went wrong")
+
         setDataImagePreview({
             title: questionsClone[index].imageName,
             url: URL.createObjectURL(questionsClone[index].imageFile)
         })
         setIsPreviewImage(true)
+    }
+
+    const urlToFile = (url, fileName, mimeType) => {
+        return (
+            fetch(url)
+            .then(function (res) {return res.arrayBuffer()})
+            .then(function (buf) {return new File([buf], fileName, {type: mimeType})})
+        )
     }
 
     const fetchQuizList = async () => {
@@ -193,9 +202,31 @@ const QuizQA = () => {
         }
     }
 
+    const fetchQuizWithQA = async () => {
+        let res = await getQuizWithQA(selectedQuiz.value)
+
+        if (res && res.EC === 0) {
+            let newQA = []
+            for (let i = 0; i < res.DT.qa.length; i++) {
+                let q = res.DT.qa[i]
+                if (q.imageFile) {
+                    q.imageName = `Question-${q.id}.png`
+                    q.imageFile = await urlToFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}.png`, "image/png")
+                }
+                newQA.push(q)
+            }
+            setQuestions(newQA)
+        }
+    }
+
     useEffect(() => {
         fetchQuizList()
     }, [])
+
+    useEffect(() => {
+        if (!selectedQuiz || !selectedQuiz.value) return
+        fetchQuizWithQA()
+    }, [selectedQuiz])
 
     return (
         <div className="question-container">
