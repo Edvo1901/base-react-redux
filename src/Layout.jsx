@@ -14,6 +14,7 @@ import ListQuiz from './components/User/ListQuiz.jsx';
 import DetailQuiz from './components/User/DetailQuiz.jsx';
 import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz.jsx';
 import Questions from './components/Admin/Content/Question/Questions.jsx';
+import PrivateRoute from './routes/PrivateRoute.jsx';
 
 const Layout = () => {
     return (
@@ -21,10 +22,18 @@ const Layout = () => {
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<HomePage />} />
-                    <Route path="/user" element={<ListQuiz />} />
+                    <Route path="/user" element={
+                        <PrivateRoute>
+                            <ListQuiz />
+                        </PrivateRoute>
+                    } />
                 </Route>
                 <Route path="/quiz/:id" element={<DetailQuiz />} />
-                <Route path="/admin" element={<Admin />}>
+                <Route path="/admin" element={
+                    <PrivateRoute>
+                        <Admin />
+                    </PrivateRoute>
+                }>
                     <Route index element={<Dashboard />} />
                     <Route path="manage-user" element={<ManageUser />} />
                     <Route path="manage-quizzes" element={<ManageQuiz />} />
