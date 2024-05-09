@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 const CountDown = ({ onTimeUp }) => {
-    const [count, setCount] = useState(3)
+    const [count, setCount] = useState(300)
 
     const toHHMMSS = (secs) => {
         const secNum = parseInt(secs, 10)

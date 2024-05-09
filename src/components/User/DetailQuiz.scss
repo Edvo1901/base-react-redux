@@ -71,8 +71,17 @@
                 align-items: center;
                 justify-content: center;
                 cursor: pointer;
-                
+                background: rgb(234, 233, 233);
+
                 &:hover {
+                    color: red;
+                }
+
+                &.selected {
+                    background-color: #939292;
+                }
+
+                &.clicked {
                     color: red;
                 }
             }
