@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../services/APIService';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
+import Language from './Language';
 
 const Header = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
@@ -45,6 +46,7 @@ const Header = () => {
                         <NavLink to="/admin" className="nav-link">Admin</NavLink>
                     </Nav>
                     <Nav>
+                        <Language />
                         {!isAuthenticated ?
                             <>
                                 <button className="btn-login" onClick={() => handleLogin()}>Log in</button>

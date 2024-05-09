@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
 import { ImSpinner10 } from 'react-icons/im';
+import Language from "../Header/Language";
 
 const Login = () => {
     const navigate = useNavigate()
@@ -52,6 +53,7 @@ const Login = () => {
             <div className="header">
                 <span>Don't have an account?</span>
                 <button onClick={() => handleGoToSignUpPage()}>Sign up</button>
+                <Language />
             </div>
             <div className="title text-center col-4 mx-auto">
                 React-redux
@@ -67,12 +69,12 @@ const Login = () => {
                 <div className="form-group">
                     <label>Password</label>
                     <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    onKeyDown={(e) => handleKeyDown(e)}
+                        type="password"
+                        className="form-control"
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e)}
                     />
                 </div>
                 <span className="forgot-password">Forgot your password?</span>

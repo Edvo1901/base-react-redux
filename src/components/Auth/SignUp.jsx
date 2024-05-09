@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { postUserRegister } from "../services/APIService";
 import { useState } from "react";
 import { VscEyeClosed, VscEye } from 'react-icons/vsc';
+import Language from "../Header/Language";
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -58,6 +59,9 @@ const SignUp = () => {
                         <div className="col-12 col-md-9 col-lg-7 col-xl-6">
                             <div className="card">
                                 <div className="card-body p-5">
+                                    <div className="signup-language-container">
+                                        <Language />
+                                    </div>
                                     <h2 className="text-uppercase text-center mb-5">Create an account</h2>
                                     <form>
                                         <div className="form-outline mb-4">
