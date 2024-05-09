@@ -1,0 +1,12 @@
+{
+    "homepage": {
+        "title1": "Có những cách hỏi tốt hơn",
+        "title2": "Bạn muốn thử thách?<1/>Và kiểm chứng kiến thức bản thân.<1/>Hãy làm bài quiz.",
+        "takeQuizBtn": "Làm quiz",
+        "getStartedBtn": "Thử ngay hôm nay!"
+    },
+    "header": {
+        "login": "Đăng nhập",
+        "signUp": "Đăng kí"
+    }
+}

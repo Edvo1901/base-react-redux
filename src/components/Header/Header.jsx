@@ -8,12 +8,14 @@ import { logout } from '../services/APIService';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
 import Language from './Language';
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
     const account = useSelector(state => state.user.account)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const handleLogin = () => {
         navigate("/login")
@@ -49,8 +51,8 @@ const Header = () => {
                         <Language />
                         {!isAuthenticated ?
                             <>
-                                <button className="btn-login" onClick={() => handleLogin()}>Log in</button>
-                                <button className="btn-signup" onClick={() => handleSignUp()}>Sign up</button>
+                                <button className="btn-login" onClick={() => handleLogin()}>{t("header.login")}</button>
+                                <button className="btn-signup" onClick={() => handleSignUp()}>{t("header.signUp")}</button>
                             </>
                             :
                             <NavDropdown title="Setting" id="basic-nav-dropdown">

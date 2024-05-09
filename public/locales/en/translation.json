@@ -1,0 +1,12 @@
+{
+    "homepage": {
+        "title1": "There's a better way to ask",
+        "title2": "You want to challenge yourself?<1/>And test your knowledge.<1/>Take some quizzes.",
+        "takeQuizBtn": "Take quiz",
+        "getStartedBtn": "Get's started. It's free!"
+    },
+    "header": {
+        "login": "Login",
+        "signUp": "Sign up"
+    }
+}

@@ -15,10 +15,11 @@ import DetailQuiz from './components/User/DetailQuiz.jsx';
 import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz.jsx';
 import Questions from './components/Admin/Content/Question/Questions.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
+import { Suspense } from 'react';
 
 const Layout = () => {
     return (
-        <>
+        <Suspense fallback={<div>Loading...</div>}>
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<HomePage />} />
@@ -55,7 +56,7 @@ const Layout = () => {
                 theme="dark"
                 transition={Bounce}
             />
-        </>
+        </Suspense>
     )
 }
 
