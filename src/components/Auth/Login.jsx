@@ -41,6 +41,12 @@ const Login = () => {
         navigate("/signup")
     }
 
+    const handleKeyDown = (e) => {
+        if (e && e.keyCode === 13) {
+            handleLogin()
+        }
+    }
+
     return (
         <div className="login-container">
             <div className="header">
@@ -60,7 +66,14 @@ const Login = () => {
                 </div>
                 <div className="form-group">
                     <label>Password</label>
-                    <input type="password" className="form-control" placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)} />
+                    <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    />
                 </div>
                 <span className="forgot-password">Forgot your password?</span>
                 <div className="text-center">
